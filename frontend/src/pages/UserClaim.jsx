@@ -3,19 +3,19 @@ import "../styles/UserClaim.css";
 
 // Centralized API utility
 const api = {
-  getUsers: async () => (await fetch("/api/v1/get-leaderboard")).json(),
-  addUser: async (name) => (await fetch("/api/v1/add-user", {
+  getUsers: async () => (await fetch("http://localhost:5001/api/v1/get-leaderboard")).json(),
+  addUser: async (name) => (await fetch("http://localhost:5001/api/v1/add-user", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username: name }),
   })).json(),
-  claimPoints: async (username) => (await fetch("/api/v1/give-points", {
+  claimPoints: async (username) => (await fetch("http://localhost:5001/api/v1/give-points", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username }),
   })).json(),
-  getLeaderboard: async () => (await fetch("/api/leaderboard")).json(),
-  getHistory: async () => (await fetch("/api/history")).json(),
+  getLeaderboard: async () => (await fetch("http://localhost:5001/api/v1/get-leaderboard")).json(),
+  getHistory: async () => (await fetch("http://localhost:5001/api/v1/get-history")).json(),
 };
 
 export default function UserClaim({ onAction }) {
@@ -31,8 +31,9 @@ export default function UserClaim({ onAction }) {
   const fetchAll = async () => {
     const leaderboardData = await api.getUsers();
     setUsers(leaderboardData.users || []);
-    setLeaderboard(await api.getLeaderboard());
-    setHistory(await api.getHistory());
+    setLeaderboard(leaderboardData.users || []);
+    const historyData = await api.getHistory();
+    setHistory(historyData.history || []);
   };
 
   useEffect(() => {
@@ -43,7 +44,7 @@ export default function UserClaim({ onAction }) {
   const handleClaim = async () => {
     if (!selectedUser) return;
     const data = await api.claimPoints(selectedUser);
-    setAssignedPoints(data.points);
+    setAssignedPoints(data.user ? (data.user.points || null) : null);
     fetchAll(); // Refresh all data
     if (onAction) onAction(); // Notify parent
   };
@@ -100,7 +101,7 @@ export default function UserClaim({ onAction }) {
         <ul style={{ listStyle: 'none', padding: 0 }}>
           {leaderboard.map((user, idx) => (
             <li key={user._id} style={{ margin: '4px 0' }}>
-              #{idx + 1} <b>{user.name}</b> - {user.totalPoints} pts
+              #{idx + 1} <b>{user.username}</b> - {user.points} pts
             </li>
           ))}
         </ul>
@@ -110,7 +111,7 @@ export default function UserClaim({ onAction }) {
         <ul style={{ listStyle: 'none', padding: 0 }}>
           {history.slice(0, 5).map((entry, idx) => (
             <li key={idx}>
-              <b>{entry.userName}</b> claimed <b>{entry.points}</b> points on {new Date(entry.timestamp).toLocaleString()}
+              <b>{entry.username}</b> claimed <b>{entry.pointsAdded}</b> points on {new Date(entry.timestamp).toLocaleString()}
             </li>
           ))}
         </ul>

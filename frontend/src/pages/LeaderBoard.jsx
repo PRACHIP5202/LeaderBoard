@@ -3,7 +3,7 @@ import "../styles/LeaderBoard.css";
 
 // Centralized API utility
 const api = {
-  getLeaderboard: async () => (await fetch("/api/v1/get-leaderboard")).json(),
+  getLeaderboard: async () => (await fetch("http://localhost:5001/api/v1/get-leaderboard")).json(),
 };
 
 export default function LeaderBoard({ refresh }) {
