@@ -29,7 +29,7 @@ export default function App() {
 
         <Routes>
           <Route path="/" element={<UserClaim onAction={triggerRefresh} />} />
-          <Route path="/leaderboard" element={<LeaderBoard refresh={refresh} />} />
+          <Route path="/leaderboard" element={<LeaderBoard />} />
           <Route path="/add-user" element={<AddUser onUserAdded={triggerRefresh} />} />
           <Route path="/history" element={<History refresh={refresh} />} />
         </Routes>

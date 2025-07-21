@@ -27,7 +27,7 @@ export default function UserClaim({ onAction }) {
   const [history, setHistory] = useState([]);
   const [message, setMessage] = useState("");
 
-  // Fetch all data
+ 
   const fetchAll = async () => {
     const leaderboardData = await api.getUsers();
     setUsers(leaderboardData.users || []);
@@ -67,8 +67,8 @@ export default function UserClaim({ onAction }) {
       setMessage("Failed to add user. Please try again.");
     }
     setNewUser("");
-    fetchAll(); // Refresh all data
-    if (onAction) onAction(); // Notify parent
+    fetchAll();
+    if (onAction) onAction(); 
   };
 
   return (
