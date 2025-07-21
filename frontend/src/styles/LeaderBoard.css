@@ -1,0 +1,41 @@
+.leaderboard-container {
+  padding: 2rem;
+  text-align: center;
+}
+
+.leader-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  max-width: 600px;
+  margin-inline: auto;
+}
+
+.leader-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f3f3f3;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.rank-1 { background: #ffe082; }
+.rank-2 { background: #e0e0e0; }
+.rank-3 { background: #cd7f32; }
+
+.rank {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.name {
+  font-weight: 600;
+}
+
+.points {
+  color: #4caf50;
+  font-weight: bold;
+}

@@ -1,0 +1,37 @@
+.claim-container {
+  text-align: center;
+  padding: 2rem;
+}
+
+select {
+  padding: 0.5rem 1rem;
+  margin: 1rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #aaa;
+}
+
+.claim-button {
+  background: linear-gradient(135deg, #f093fb, #f5576c);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.claim-button:hover {
+  background: linear-gradient(135deg, #fc6076, #ff9a44);
+}
+
+.point-card {
+  margin-top: 2rem;
+  background: #fff7db;
+  border: 2px dashed #ffc107;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  display: inline-block;
+}
