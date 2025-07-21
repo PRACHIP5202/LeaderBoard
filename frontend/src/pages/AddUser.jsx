@@ -3,10 +3,10 @@ import "../styles/AddUser.css";
 
 // Centralized API utility
 const api = {
-  addUser: async (name) => (await fetch("/api/users", {
+  addUser: async (name) => (await fetch("/api/v1/add-user", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name }),
+    body: JSON.stringify({ username: name }),
   })).json(),
 };
 

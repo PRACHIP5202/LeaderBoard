@@ -3,7 +3,7 @@ import "../styles/LeaderBoard.css";
 
 // Centralized API utility
 const api = {
-  getLeaderboard: async () => (await fetch("/api/leaderboard")).json(),
+  getLeaderboard: async () => (await fetch("/api/v1/get-leaderboard")).json(),
 };
 
 export default function LeaderBoard({ refresh }) {
@@ -11,7 +11,8 @@ export default function LeaderBoard({ refresh }) {
 
   // Fetch leaderboard data
   const fetchLeaders = async () => {
-    setLeaders(await api.getLeaderboard());
+    const data = await api.getLeaderboard();
+    setLeaders(data.users || []);
   };
 
   useEffect(() => {
@@ -25,8 +26,8 @@ export default function LeaderBoard({ refresh }) {
         {leaders.map((user, index) => (
           <div key={user._id} className={`leader-card rank-${index + 1}`}>
             <span className="rank">#{index + 1}</span>
-            <span className="name">{user.name}</span>
-            <span className="points">{user.totalPoints} pts</span>
+            <span className="name">{user.username}</span>
+            <span className="points">{user.points} pts</span>
           </div>
         ))}
       </div>

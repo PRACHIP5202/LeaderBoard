@@ -3,13 +3,17 @@ import "../styles/UserClaim.css";
 
 // Centralized API utility
 const api = {
-  getUsers: async () => (await fetch("/api/users")).json(),
-  addUser: async (name) => (await fetch("/api/users", {
+  getUsers: async () => (await fetch("/api/v1/get-leaderboard")).json(),
+  addUser: async (name) => (await fetch("/api/v1/add-user", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name }),
+    body: JSON.stringify({ username: name }),
   })).json(),
-  claimPoints: async (userId) => (await fetch(`/api/claim/${userId}`, { method: "POST" })).json(),
+  claimPoints: async (username) => (await fetch("/api/v1/give-points", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username }),
+  })).json(),
   getLeaderboard: async () => (await fetch("/api/leaderboard")).json(),
   getHistory: async () => (await fetch("/api/history")).json(),
 };
@@ -25,7 +29,8 @@ export default function UserClaim({ onAction }) {
 
   // Fetch all data
   const fetchAll = async () => {
-    setUsers(await api.getUsers());
+    const leaderboardData = await api.getUsers();
+    setUsers(leaderboardData.users || []);
     setLeaderboard(await api.getLeaderboard());
     setHistory(await api.getHistory());
   };
@@ -47,8 +52,19 @@ export default function UserClaim({ onAction }) {
   const handleAddUser = async (e) => {
     e.preventDefault();
     if (!newUser.trim()) return;
-    const data = await api.addUser(newUser.trim());
-    setMessage(data.message || "User added successfully");
+    setMessage("");
+    try {
+      const data = await api.addUser(newUser.trim());
+      if (data.error) {
+        setMessage(data.error);
+      } else if (data.message) {
+        setMessage(data.message);
+      } else {
+        setMessage("User added successfully");
+      }
+    } catch (err) {
+      setMessage("Failed to add user. Please try again.");
+    }
     setNewUser("");
     fetchAll(); // Refresh all data
     if (onAction) onAction(); // Notify parent
@@ -60,7 +76,7 @@ export default function UserClaim({ onAction }) {
       <select onChange={e => setSelectedUser(e.target.value)} value={selectedUser}>
         <option value="">-- Select User --</option>
         {users.map(user => (
-          <option key={user._id} value={user._id}>{user.name}</option>
+          <option key={user._id} value={user.username}>{user.username}</option>
         ))}
       </select>
       <button onClick={handleClaim} className="claim-button">Claim</button>
@@ -78,7 +94,7 @@ export default function UserClaim({ onAction }) {
         />
         <button type="submit" className="claim-button" style={{ marginLeft: 8 }}>Add User</button>
       </form>
-      {message && <div style={{ color: 'green', marginTop: 8 }}>{message}</div>}
+      {message && <div style={{ color: message.toLowerCase().includes('error') || message.toLowerCase().includes('fail') ? 'red' : 'green', marginTop: 8 }}>{message}</div>}
       <div style={{ marginTop: 40 }}>
         <h3>Leaderboard</h3>
         <ul style={{ listStyle: 'none', padding: 0 }}>
