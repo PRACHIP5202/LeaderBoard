@@ -9,7 +9,7 @@ const CoinsIcon = ({ className }) => <span className={className}>🪙</span>
 
 // Centralized API utility
 const api = {
-  getLeaderboard: async () => (await fetch("http://localhost:5001/api/v1/get-leaderboard")).json(),
+  getLeaderboard: async () => (await fetch("https://leaderboard-t2v0.onrender.com/api/v1/get-leaderboard")).json(),
 }
 
 export default function LeaderBoard() {

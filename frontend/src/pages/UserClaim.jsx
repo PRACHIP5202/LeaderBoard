@@ -3,19 +3,19 @@ import "../styles/UserClaim.css";
 
 // Centralized API utility
 const api = {
-  getUsers: async () => (await fetch("http://localhost:5001/api/v1/get-leaderboard")).json(),
-  addUser: async (name) => (await fetch("http://localhost:5001/api/v1/add-user", {
+  getUsers: async () => (await fetch("https://leaderboard-t2v0.onrender.com/api/v1/get-leaderboard")).json(),
+  addUser: async (name) => (await fetch("https://leaderboard-t2v0.onrender.com/api/v1/add-user", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username: name }),
   })).json(),
-  claimPoints: async (username) => (await fetch("http://localhost:5001/api/v1/give-points", {
+  claimPoints: async (username) => (await fetch("https://leaderboard-t2v0.onrender.com/api/v1/give-points", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username }),
   })).json(),
-  getLeaderboard: async () => (await fetch("http://localhost:5001/api/v1/get-leaderboard")).json(),
-  getHistory: async () => (await fetch("http://localhost:5001/api/v1/get-history")).json(),
+  getLeaderboard: async () => (await fetch("https://leaderboard-t2v0.onrender.com/api/v1/get-leaderboard")).json(),
+  getHistory: async () => (await fetch("https://leaderboard-t2v0.onrender.com/api/v1/get-history")).json(),
 };
 
 export default function UserClaim({ onAction }) {

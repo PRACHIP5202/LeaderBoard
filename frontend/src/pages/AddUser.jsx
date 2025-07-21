@@ -3,7 +3,7 @@ import "../styles/AddUser.css";
 
 // Centralized API utility
 const api = {
-  addUser: async (name) => (await fetch("http://localhost:5001/api/v1/add-user", {
+  addUser: async (name) => (await fetch("https://leaderboard-t2v0.onrender.com/api/v1/add-user", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username: name }),
